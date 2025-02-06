@@ -1,8 +1,8 @@
 from typing import Self
 
 import pika
-from config import settings
 
+from core.config import settings
 from core.logger_utils import get_logger
 
 logger = get_logger(__file__)
@@ -103,7 +103,3 @@ def publish_to_rabbitmq(queue_name: str, data: str):
         logger.warning("Message could not be routed")
     except Exception:
         logger.exception("Error publishing to RabbitMQ.")
-
-
-if __name__ == "__main__":
-    publish_to_rabbitmq("test_queue", "Hello, World!")

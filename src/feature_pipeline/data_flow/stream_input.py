@@ -4,8 +4,9 @@ from datetime import datetime
 from typing import Generic, Iterable, List, Optional, TypeVar
 
 from bytewax.inputs import FixedPartitionedSource, StatefulSourcePartition
-from config import settings
+
 from core import get_logger
+from core.config import settings
 from core.mq import RabbitMQConnection
 
 logger = get_logger(__name__)

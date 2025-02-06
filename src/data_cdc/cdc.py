@@ -2,7 +2,8 @@ import json
 import logging
 
 from bson import json_util
-from config import settings
+
+from core.config import settings
 from core.db.mongo import MongoDatabaseConnector
 from core.logger_utils import get_logger
 from core.mq import publish_to_rabbitmq
