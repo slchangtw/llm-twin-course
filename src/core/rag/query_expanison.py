@@ -1,8 +1,9 @@
 import opik
-from config import settings
-from langchain_openai import ChatOpenAI
+from langchain_ollama import ChatOllama
 from opik.integrations.langchain import OpikTracer
 
+from core.config import settings
+from core.lib import remove_think_tags
 from core.rag.prompt_templates import QueryExpansionTemplate
 
 
@@ -14,9 +15,8 @@ class QueryExpansion:
     def generate_response(query: str, to_expand_to_n: int) -> list[str]:
         query_expansion_template = QueryExpansionTemplate()
         prompt = query_expansion_template.create_template(to_expand_to_n)
-        model = ChatOpenAI(
-            model=settings.OPENAI_MODEL_ID,
-            api_key=settings.OPENAI_API_KEY,
+        model = ChatOllama(
+            model=settings.CHAT_MODEL_ID,
             temperature=0,
         )
         chain = prompt | model
@@ -25,7 +25,13 @@ class QueryExpansion:
         response = chain.invoke({"question": query})
         response = response.content
 
-        queries = response.strip().split(query_expansion_template.separator)
+        queries = [
+            q.strip()
+            for q in remove_think_tags(response).split(
+                query_expansion_template.separator
+            )
+            if q.strip()
+        ]
         stripped_queries = [
             stripped_item for item in queries if (stripped_item := item.strip(" \\n"))
         ]

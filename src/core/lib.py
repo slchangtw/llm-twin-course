@@ -1,3 +1,5 @@
+import re
+
 from core.errors import ImproperlyConfigured
 
 
@@ -20,3 +22,7 @@ def flatten(nested_list: list) -> list:
     """Flatten a list of lists into a single list."""
 
     return [item for sublist in nested_list for item in sublist]
+
+
+def remove_think_tags(text):
+    return re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL).strip()

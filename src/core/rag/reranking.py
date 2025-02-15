@@ -1,6 +1,7 @@
-from config import settings
-from langchain_openai import ChatOpenAI
+from langchain_ollama import ChatOllama
 
+from core.config import settings
+from core.lib import remove_think_tags
 from core.rag.prompt_templates import RerankingTemplate
 
 
@@ -11,9 +12,7 @@ class Reranker:
     ) -> list[str]:
         reranking_template = RerankingTemplate()
         prompt = reranking_template.create_template(keep_top_k=keep_top_k)
-        model = ChatOpenAI(
-            model=settings.OPENAI_MODEL_ID, api_key=settings.OPENAI_API_KEY
-        )
+        model = ChatOllama(model=settings.CHAT_MODEL_ID)
         chain = prompt | model
 
         stripped_passages = [
@@ -23,7 +22,9 @@ class Reranker:
         response = chain.invoke({"question": query, "passages": passages})
         response = response.content
 
-        reranked_passages = response.strip().split(reranking_template.separator)
+        reranked_passages = remove_think_tags(response).split(
+            reranking_template.separator
+        )
         stripped_passages = [
             stripped_item
             for item in reranked_passages

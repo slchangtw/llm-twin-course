@@ -28,9 +28,8 @@ class AppSettings(BaseSettings):
     USE_QDRANT_CLOUD: bool = False
     QDRANT_APIKEY: str | None = None
 
-    # OpenAI config
-    OPENAI_MODEL_ID: str = "gpt-4o-mini"
-    OPENAI_API_KEY: str | None = None
+    # chat model config
+    CHAT_MODEL_ID: str = "deepseek-r1"
 
     # CometML config
     COMET_API_KEY: str | None = None

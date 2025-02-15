@@ -1,12 +1,12 @@
 import concurrent.futures
 
 import opik
-from config import settings
 from qdrant_client import models
 from sentence_transformers.SentenceTransformer import SentenceTransformer
 
 import core.logger_utils as logger_utils
 from core import lib
+from core.config import settings
 from core.db.qdrant import QdrantDatabaseConnector
 from core.rag.query_expanison import QueryExpansion
 from core.rag.reranking import Reranker
