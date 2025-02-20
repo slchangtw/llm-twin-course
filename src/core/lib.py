@@ -24,5 +24,9 @@ def flatten(nested_list: list) -> list:
     return [item for sublist in nested_list for item in sublist]
 
 
-def remove_think_tags(text):
+def remove_think_tags(text: str) -> str:
     return re.sub(r"<think>.*?</think>", "", text, flags=re.DOTALL).strip()
+
+def remove_json_syntax_highlighting(text: str) -> str:
+    pattern = r"```(?:json)?\n([\s\S]+?)\n```"
+    return re.sub(pattern, r"\1", text)

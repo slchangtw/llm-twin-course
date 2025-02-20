@@ -22,12 +22,12 @@ logger.warning(
 
 import json
 import logging
-from pathlib import Path
 
 from comet_ml import Artifact, start
+from sklearn.model_selection import train_test_split
+
 from core import get_logger
 from core.db.qdrant import QdrantDatabaseConnector
-from sklearn.model_selection import train_test_split
 
 from .chunk_documents import chunk_documents
 from .file_handler import FileHandler
@@ -45,7 +45,7 @@ class DataFormatter:
         return (
             f"I will give you batches of contents of {data_type}. Please generate me exactly 1 instruction for each of them. The {data_type} text "
             f"for which you have to generate the instructions is under Content number x lines. Please structure the answer in json format,"
-            f"ready to be loaded by json.loads(), a list of objects only with fields called instruction and content. For the content field, copy the number of the content only!."
+            f"ready to be loaded by json.loads(), a list of objects only with fields called instruction and content, copy the number of the content only!."
             f"Please do not add any extra characters and make sure it is a list with objects in valid json format!\n"
         )
 
@@ -102,9 +102,6 @@ class DatasetGenerator:
         assert (
             settings.COMET_WORKSPACE
         ), "COMET_PROJECT must be set in settings, fill it in your .env file."
-        assert (
-            settings.OPENAI_API_KEY
-        ), "OPENAI_API_KEY must be set in settings, fill it in your .env file."
 
         cleaned_documents = self.fetch_all_cleaned_content(collection_name)
         cleaned_documents = chunk_documents(cleaned_documents)
@@ -194,6 +191,7 @@ class DatasetGenerator:
             logger.exception(
                 f"Failed to create Comet artifact and push it to Comet.",
             )
+    
 
     def fetch_all_cleaned_content(self, collection_name: str) -> list:
         all_cleaned_contents = []
@@ -229,3 +227,4 @@ if __name__ == "__main__":
         dataset_generator.generate_training_data(
             collection_name=collection_name, data_type=data_type
         )
+        
