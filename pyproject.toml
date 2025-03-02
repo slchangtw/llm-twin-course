@@ -50,6 +50,7 @@ gradio = "^5.5.0"
 langchain = "^0.3.18"
 langchain-ollama = "^0.2.3"
 langchain-community = "^0.3.17"
+trl = "^0.15.1"
 
 [tool.poetry.group.feature_pipeline.dependencies]
 bytewax = "0.18.2"
