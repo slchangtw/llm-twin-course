@@ -4,12 +4,11 @@ import os
 from pathlib import Path
 from typing import Any, List, Optional  # noqa: E402
 
-import torch  # noqa
 from comet_ml import Artifact, Experiment
 from comet_ml.artifacts import ArtifactAsset
 from datasets import Dataset, concatenate_datasets, load_dataset  # noqa: E402
-from transformers import TextStreamer, TrainingArguments  # noqa: E402
-from trl import SFTTrainer  # noqa: E402
+from transformers import TextStreamer  # noqa: E402
+from trl import SFTConfig, SFTTrainer  # noqa: E402
 from unsloth import FastLanguageModel, is_bfloat16_supported  # noqa: E402
 from unsloth.chat_templates import get_chat_template  # noqa: E402
 
@@ -209,7 +208,7 @@ def finetune(
         max_seq_length=max_seq_length,
         dataset_num_proc=2,
         packing=True,
-        args=TrainingArguments(
+        args=SFTConfig(
             learning_rate=learning_rate,
             num_train_epochs=num_train_epochs,
             per_device_train_batch_size=per_device_train_batch_size,
@@ -267,7 +266,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
 
     parser.add_argument(
-        "--base_model_name", type=str, default="meta-llama/Llama-3.1-8B"
+        "--base_model_name", type=str, default="meta-llama/Llama-3.2-1B"
     )
     parser.add_argument("--dataset_id", type=str)
     parser.add_argument("--num_train_epochs", type=int, default=3)
