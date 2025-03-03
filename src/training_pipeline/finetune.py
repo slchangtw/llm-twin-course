@@ -12,6 +12,10 @@ from trl import SFTConfig, SFTTrainer  # noqa: E402
 from unsloth import FastLanguageModel, is_bfloat16_supported  # noqa: E402
 from unsloth.chat_templates import get_chat_template  # noqa: E402
 
+from core.config import settings
+
+os.environ["UNSLOTH_RETURN_LOGITS"] = "1"  # Avoid Unsloth logit 0 error
+
 ALPACA_TEMPLATE = """Below is an instruction that describes a task. Write a response that appropriately completes the request.
 
 ### Instruction:
@@ -204,12 +208,11 @@ def finetune(
         tokenizer=tokenizer,
         train_dataset=dataset["train"],
         eval_dataset=dataset["test"],
-        dataset_text_field="text",
-        max_seq_length=max_seq_length,
-        dataset_num_proc=2,
-        packing=True,
         args=SFTConfig(
+            dataset_num_proc=2,
+            dataset_text_field="text",
             learning_rate=learning_rate,
+            max_seq_length=max_seq_length,
             num_train_epochs=num_train_epochs,
             per_device_train_batch_size=per_device_train_batch_size,
             gradient_accumulation_steps=gradient_accumulation_steps,
@@ -219,6 +222,7 @@ def finetune(
             optim="adamw_8bit",
             weight_decay=0.01,
             lr_scheduler_type="linear",
+            packing=True,
             per_device_eval_batch_size=per_device_train_batch_size,
             warmup_steps=10,
             output_dir=output_dir,
@@ -259,7 +263,12 @@ def save_model(
 
     if push_to_hub and repo_id:
         print(f"Saving model to '{repo_id}'")  # noqa
-        model.push_to_hub_merged(repo_id, tokenizer, save_method="merged_16bit")
+        model.push_to_hub_merged(
+            repo_id,
+            tokenizer,
+            save_method="merged_16bit",
+            token=settings.HUGGINGFACE_ACCESS_TOKEN,
+        )
 
 
 if __name__ == "__main__":
