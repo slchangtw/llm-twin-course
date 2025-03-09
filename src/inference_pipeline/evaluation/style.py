@@ -1,10 +1,11 @@
 import json
 from typing import Any
 
-from config import settings
 from opik.evaluation.metrics import base_metric, exceptions, score_result
 from opik.evaluation.models import litellm_chat_model
 from pydantic import BaseModel
+
+from core.config import settings
 
 
 class LLMJudgeStyleOutputResult(BaseModel):
@@ -21,7 +22,7 @@ class Style(base_metric.BaseMetric):
     """
 
     def __init__(
-        self, name: str = "style_metric", model_name: str = settings.OPENAI_MODEL_ID
+        self, name: str = "style_metric", model_name: str = settings.CHAT_MODEL_ID
     ) -> None:
         self.name = name
         self.llm_client = litellm_chat_model.LiteLLMChatModel(model_name=model_name)

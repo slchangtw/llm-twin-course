@@ -9,7 +9,8 @@ sys.path.append(ROOT_DIR)
 
 from core import logger_utils
 from core.config import settings
-from llm_twin import LLMTwin
+
+from .llm_twin import LLMTwin
 
 settings.patch_localhost()
 
@@ -27,18 +28,17 @@ if __name__ == "__main__":
     inference_endpoint = LLMTwin(mock=False)
 
     query = """
-Hello I am Paul Iusztin.
-        
 Could you draft an article paragraph discussing RAG? 
 I'm particularly interested in how to design a RAG system.
         """
 
     response = inference_endpoint.generate(
-        query=query, enable_rag=True, sample_for_evaluation=True
+        query=query, enable_rag=False, sample_for_evaluation=False
     )
 
     logger.info("=" * 50)
     logger.info(f"Query: {query}")
     logger.info("=" * 50)
     logger.info(f"Answer: {response['answer']}")
+    logger.info("=" * 50)
     logger.info("=" * 50)

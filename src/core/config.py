@@ -44,7 +44,7 @@ class AppSettings(BaseSettings):
 
     # LLM Model config
     HUGGINGFACE_ACCESS_TOKEN: str | None = None
-    MODEL_ID: str = "pauliusztin/LLMTwin-Llama-3.1-8B"
+    MODEL_ID: str = "slchangtw/LLMTwin-Llama-3.1-8B"
     DEPLOYMENT_ENDPOINT_NAME: str = "twin"
 
     MAX_INPUT_TOKENS: int = 1536  # Max length of input text.
@@ -56,6 +56,11 @@ class AppSettings(BaseSettings):
     EMBEDDING_MODEL_MAX_INPUT_LENGTH: int = 512
     EMBEDDING_SIZE: int = 384
     EMBEDDING_MODEL_DEVICE: str = "cpu"
+
+    # RAG config
+    TOK_K: int = 5
+    EXPAND_N_QUERY: int = 3
+    KEEP_TOP_K: int = 3
 
     def patch_localhost(self) -> None:
         self.MONGO_DATABASE_HOST = "mongodb://localhost:30001,localhost:30002,localhost:30003/?replicaSet=my-replica-set"

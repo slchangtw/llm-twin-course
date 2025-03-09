@@ -1,5 +1,6 @@
-from config import settings
 from transformers import AutoTokenizer
+
+from core.config import settings
 
 
 def compute_num_tokens(text: str) -> int:

@@ -11,7 +11,7 @@ except ModuleNotFoundError:
     )
 
 
-from config import settings
+from core.config import settings
 
 
 def delete_endpoint_and_config(endpoint_name) -> None:

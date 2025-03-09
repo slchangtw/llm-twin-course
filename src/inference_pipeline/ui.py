@@ -8,12 +8,14 @@ ROOT_DIR = str(Path(__file__).parent.parent)
 sys.path.append(ROOT_DIR)
 
 from core.config import settings
-from llm_twin import LLMTwin
+
+from .llm_twin import LLMTwin
 
 settings.patch_localhost()
 
 
 import gradio as gr
+
 from inference_pipeline.llm_twin import LLMTwin
 
 llm_twin = LLMTwin(mock=False)
@@ -34,7 +36,7 @@ def predict(message: str, history: list[list[str]], author: str) -> str:
 
     query = f"I am {author}. Write about: {message}"
     response = llm_twin.generate(
-        query=query, enable_rag=True, sample_for_evaluation=False
+        query=query, enable_rag=False, sample_for_evaluation=False
     )
 
     return response["answer"]
@@ -62,15 +64,15 @@ demo = gr.ChatInterface(
     examples=[
         [
             "Draft a post about RAG systems.",
-            "Paul Iusztin",
+            "John Doe",
         ],
         [
             "Draft an article paragraph about vector databases.",
-            "Paul Iusztin",
+            "John Doe",
         ],
         [
             "Draft a post about LLM chatbots.",
-            "Paul Iusztin",
+            "Jane Doe",
         ],
     ],
     cache_examples=False,

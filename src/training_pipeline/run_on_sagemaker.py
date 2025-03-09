@@ -8,13 +8,14 @@ from pathlib import Path
 ROOT_DIR = str(Path(__file__).parent.parent)
 sys.path.append(ROOT_DIR)
 
-from core import logger_utils
 from huggingface_hub import HfApi
 from sagemaker.huggingface import HuggingFace
 
+from core import logger_utils
+
 logger = logger_utils.get_logger(__file__)
 
-from config import settings
+from core.config import settings
 
 finetuning_dir = Path(__file__).resolve().parent
 finetuning_requirements_path = finetuning_dir / "requirements.txt"

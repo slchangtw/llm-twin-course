@@ -1,5 +1,6 @@
-from config import settings
 from sagemaker.huggingface import HuggingFaceModel, get_huggingface_llm_image_uri
+
+from core.config import settings
 
 
 def main() -> None:
@@ -22,7 +23,7 @@ def main() -> None:
         "HF_MODEL_QUANTIZE": "bitsandbytes",
     }
 
-    image_uri = get_huggingface_llm_image_uri("huggingface", version="2.2.0")
+    image_uri = get_huggingface_llm_image_uri("huggingface", version="3.0.1")
 
     model = HuggingFaceModel(
         env=env_vars, role=settings.AWS_ARN_ROLE, image_uri=image_uri
@@ -31,7 +32,7 @@ def main() -> None:
     model.deploy(
         initial_instance_count=1,
         instance_type="ml.g5.2xlarge",
-        container_startup_health_check_timeout=900,
+        container_startup_health_check_timeout=180,
         endpoint_name=settings.DEPLOYMENT_ENDPOINT_NAME,
     )
 

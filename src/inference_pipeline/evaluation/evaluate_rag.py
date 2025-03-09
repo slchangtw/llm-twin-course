@@ -1,15 +1,13 @@
 import argparse
 
+from opik.evaluation import evaluate
+from opik.evaluation.metrics import ContextPrecision, ContextRecall, Hallucination
+
 from core.config import settings
 from core.logger_utils import get_logger
 from core.opik_utils import create_dataset_from_artifacts
-from llm_twin import LLMTwin
-from opik.evaluation import evaluate
-from opik.evaluation.metrics import (
-    ContextPrecision,
-    ContextRecall,
-    Hallucination,
-)
+
+from ..llm_twin import LLMTwin
 
 settings.patch_localhost()
 

@@ -1,12 +1,13 @@
 import argparse
 
-from config import settings
-from core.logger_utils import get_logger
-from core.opik_utils import create_dataset_from_artifacts
-from llm_twin import LLMTwin
 from opik.evaluation import evaluate
 from opik.evaluation.metrics import Hallucination, LevenshteinRatio, Moderation
 
+from core.config import settings
+from core.logger_utils import get_logger
+from core.opik_utils import create_dataset_from_artifacts
+
+from ..llm_twin import LLMTwin
 from .style import Style
 
 logger = get_logger(__name__)
@@ -47,7 +48,6 @@ def main() -> None:
         dataset_name="LLMTwinArtifactTestDataset",
         artifact_names=[
             "articles-instruct-dataset",
-            "repositories-instruct-dataset",
         ],
     )
     if dataset is None:

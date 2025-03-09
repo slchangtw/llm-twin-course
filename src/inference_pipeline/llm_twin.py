@@ -2,15 +2,17 @@ import pprint
 
 import opik
 import sagemaker
-from config import settings
-from core import logger_utils
-from core.opik_utils import add_to_dataset_with_sampling
-from core.rag.retriever import VectorRetriever
 from langchain.prompts import PromptTemplate
 from opik import opik_context
-from prompt_templates import InferenceTemplate
 from sagemaker.huggingface.model import HuggingFacePredictor
-from utils import compute_num_tokens, truncate_text_to_max_tokens
+
+from core import logger_utils
+from core.config import settings
+from core.opik_utils import add_to_dataset_with_sampling
+from core.rag.retriever import VectorRetriever
+
+from .prompt_templates import InferenceTemplate
+from .utils import compute_num_tokens, truncate_text_to_max_tokens
 
 logger = logger_utils.get_logger(__name__)
 
