@@ -72,25 +72,25 @@ local-start-training-pipeline: # Start the training pipeline in your Poetry env.
 	cd src/training_pipeline && poetry run python -m finetune
 
 deploy-inference-pipeline: # Deploy the inference pipeline to AWS SageMaker.
-	cd src/inference_pipeline && poetry run python -m aws.deploy_sagemaker_endpoint
+	cd src && poetry run python -m inference_pipeline.aws.deploy_sagemaker_endpoint
 
 call-inference-pipeline: # Call the inference pipeline client using your Poetry env.
-	cd src/inference_pipeline && poetry run python -m main
+	cd src && poetry run python -m inference_pipeline.main
 
 delete-inference-pipeline-deployment: # Delete the deployment of the AWS SageMaker inference pipeline.
-	cd src/inference_pipeline && PYTHONPATH=$(PYTHONPATH) poetry run python -m aws.delete_sagemaker_endpoint
+	cd src && PYTHONPATH=$(PYTHONPATH) poetry run python -m inference_pipeline.aws.delete_sagemaker_endpoint
 
 local-start-ui: # Start the Gradio UI for chatting with your LLM Twin using your Poetry env.
-	cd src/inference_pipeline && poetry run python -m ui
+	cd src && poetry run python -m inference_pipeline.ui
 
 evaluate-llm: # Run evaluation tests on the LLM model's performance using your Poetry env.
-	cd src/inference_pipeline && poetry run python -m evaluation.evaluate
+	cd src && poetry run python -m inference_pipeline.evaluation.evaluate
 
 evaluate-rag: # Run evaluation tests specifically on the RAG system's performance using your Poetry env.
-	cd src/inference_pipeline && poetry run python -m evaluation.evaluate_rag
+	cd src && poetry run python -m inference_pipeline.evaluation.evaluate_rag
 
 evaluate-llm-monitoring: # Run evaluation tests for monitoring the LLM system using your Poetry env.
-	cd src/inference_pipeline && poetry run python -m evaluation.evaluate_monitoring
+	cd src && poetry run python -m inference_pipeline.evaluation.evaluate_monitoring
 
 # ======================================
 # ------ Superlinked Bonus Series ------
